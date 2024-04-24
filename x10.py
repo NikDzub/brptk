@@ -6,7 +6,7 @@ class BurpExtender(IBurpExtender, IHttpListener):
         self._callbacks = callbacks
         self._helpers = callbacks.getHelpers()
         callbacks.registerHttpListener(self)
-        callbacks.setExtensionName("Hello Extension")
+        callbacks.setExtensionName("Change likes")
         print("Hello Burp")
         callbacks.issueAlert("Hello alerts!")
 
@@ -17,14 +17,14 @@ class BurpExtender(IBurpExtender, IHttpListener):
         body = response[response_data.getBodyOffset() :].tostring()
         return headers, body
 
-    def processHttpMessage(self, tool, is_request, content):
-        if is_request:
+    def processHttpMessage(self, toolFlag, messageIsRequest, messageInfo):
+        if messageIsRequest:
             return
 
-        headers, body = self.getResponseHeadersAndBody(content)
+        headers, body = self.getResponseHeadersAndBody(messageInfo)
 
         # modify body
         body = body.replace('digg_count":0,', 'digg_count":13242340,')
 
         new_message = self._helpers.buildHttpMessage(headers, body)
-        content.setResponse(new_message)
+        messageInfo.setResponse(new_message)
