@@ -40,9 +40,7 @@ class BurpExtender(IBurpExtender, IHttpListener):
 
         res_headers, res_body = self.getResponseHeadersAndBody(message)
 
-        for b in res_body:
-            print(b)
-            print("-----")
+        print(res_body)
 
         # res_body = res_body.replace("resolution=320*439,", "resolution=120*139")
 
