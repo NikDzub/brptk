@@ -123,7 +123,7 @@ def getResponseHeadersAndBody(self, content):
        pass
    return headers, body
 ```
+https://github.com/NikDzub/brptk/assets/87159434/ef27afb3-72bb-408a-aa61-6eb7f62f3191
 
-https://github.com/NikDzub/brptk/assets/87159434/e148b621-d9c6-4902-b5c9-b06c6d770444
 
 
