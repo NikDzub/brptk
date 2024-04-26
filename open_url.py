@@ -8,29 +8,42 @@ import sys
 import subprocess
 
 
-print(f"{sys.argv[0]} is running..")
+serial = sys.argv[1]  # 127.0.0.1:6562
 
-client = AdbClient(host="127.0.0.1", port=5037)
-devices = client.devices()
 
 cid = "7361472708431151880"
 aweme_id = "7359115844732996870"
 uid = "7255177357119161349"
 
-url = f"https://www.tiktok.com/@apnatemplate7/video/7359115844732996870?_d=ed672222h8l334\u0026_r=1\u0026comment_author_id={uid}\u0026preview_pb=0\u0026share_comment_id=xw{cid}\u0026share_item_id=7359115844732996870\u0026sharer_language=en\u0026source=h5_m\u0026u_code=e91bfeg4416bhk"
+url = f"""https://www.tiktok.com/@lior__glam/video/7357731497970912519
+?_d=ed672222h8l334\u0026
+_r=1\u0026
+comment_author_id=6812321935420310533\u0026
+preview_pb=0\u0026
+share_comment_id=7358144608507085586\u0026
+share_item_id=7357731497970912519\u0026
+sharer_language=en\u0026
+source=h5_m\u0026
+u_code=e91bfeg4416bhk""".replace(
+    "\n", ""
+)
 
 print(url)
 
 
-def start_ui(client):
+def open_url(serial):
     # atx
-    d = u2.connect(client.serial)  # print(d.info)
+    d = u2.connect(serial)  # print(d.info)
     d.open_url(url)
 
 
-for client in devices:
+def main():
     try:
-        start_ui(client)
+        open_url(serial)
     except Exception as error:
         print(error)
         pass
+
+
+if __name__ == "__main__":
+    main()
