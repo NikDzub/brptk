@@ -94,3 +94,36 @@ class BurpExtender(IBurpExtender, IHttpListener):
         content.setResponse(new_message)
 ```
 <img src="https://github.com/NikDzub/brptk/assets/87159434/ebec97c3-d7a9-4d13-b43a-1e08f483eb2e" width=100%>
+
+```python
+# when loading comments, we get share link for each comment
+# structure is /@{}/video/{}?comment_author_id={}&share_comment_id={}
+# when posting a comment, theres no way to get the share link instantly because of various reasons
+# so lets construct our own share link as the comment is posted
+# as marked those are the required params for the share link to work
+```
+<img src="https://github.com/NikDzub/brptk/assets/87159434/e76df7bc-6ec2-4d5f-933c-591af7ec8a79" width=100%>
+<img src="https://github.com/NikDzub/brptk/assets/87159434/ad2b53aa-12c3-40a7-98ce-ed94c041eae3" width=100%>
+
+```python
+# in our burp extention (./x10.py as of now) we are using regex to extract the params 
+# as we are using jython we are limited on our python libraries and it also uses python 2 btw
+# example of getting the cid and uid from the response as the comment is posted:
+def getResponseHeadersAndBody(self, content):
+   response = content.getResponse()
+   response_data = self._helpers.analyzeResponse(response)
+   headers = list(response_data.getHeaders())
+   body = response[response_data.getBodyOffset() :].tostring()
+   try:
+       if '"comment":{' in body:
+           cid = re.search(r'"cid":"(.*?)"', str(body)).group(1)
+           uid = re.search(r'"uid":"(.*?)"', str(body)).group(1)
+   except Exception as error:
+       print(error)
+       pass
+   return headers, body
+```
+https://github.com/NikDzub/brptk/assets/87159434/ef27afb3-72bb-408a-aa61-6eb7f62f3191
+
+
+
