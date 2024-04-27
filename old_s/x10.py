@@ -71,6 +71,8 @@ class BurpExtender(IBurpExtender, IHttpListener):
         new_res = self._helpers.buildHttpMessage(res_headers, res_body)
         message.setResponse(new_res)
 
+        global x
+
         if author_id and aweme_id and uid and cid:
             print(
                 "https://www.tiktok.com/@{}/video/{}?comment_author_id={}&share_comment_id={}".format(

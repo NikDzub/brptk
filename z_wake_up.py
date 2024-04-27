@@ -25,7 +25,7 @@ def start_ui(serial):
     # frida
     d.shell("/data/local/tmp/frida-server &")
     subprocess.run(
-        f"frida -U -l ./etc/tiktok-ssl-pinning-bypass.js -f com.zhiliaoapp.musically",
+        f"frida -D {serial} -l ./etc/tiktok-ssl-pinning-bypass.js -f com.zhiliaoapp.musically",
         shell=True,
         check=True,
     )
