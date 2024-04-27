@@ -35,7 +35,7 @@ class BurpExtender(IBurpExtender, IHttpListener):
                 author_id = re.search(r"author_id=(\d+)", str(headers[0])).group(1)
 
         except Exception as error:
-            print(error)
+            # print(error)
             pass
         return headers, body
 
@@ -53,7 +53,7 @@ class BurpExtender(IBurpExtender, IHttpListener):
                 uid = re.search(r'"uid":"(.*?)"', str(body)).group(1)
 
         except Exception as error:
-            print(error)
+            # print(error)
             pass
         return headers, body
 
