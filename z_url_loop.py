@@ -48,10 +48,21 @@ async def open_urls(user_id, urls):
     await asyncio.sleep(2)
     d(resourceId="com.android.systemui:id/clock").exists(timeout=20)
 
+    d.open_url("https://www.tiktok.com/@ihptto")
+    d(text="Message").exists(timeout=20)
+
     for url in urls:
         d.open_url(url)
         d(descriptionContains="Like or undo like").exists(timeout=20)
-        # d(descriptionContains="Like or undo like").click()
+        d(descriptionContains="Like or undo like").click()
+
+    d.shell("pm clear com.zhiliaoapp.musically")
+    d.shell("am force-stop com.zhiliaoapp.musically")
+
+
+async def reboot(serial):
+    subprocess.run(f"adb -s {serial} reboot", shell=True, check=True)
+    asyncio.sleep(20)
 
 
 async def main():
@@ -62,6 +73,7 @@ async def main():
                 for user_id in d_users:
                     await open_urls(user_id, urls)
                 delete_urls(urls_path, urls)
+                await reboot(serial)
 
         except Exception as error:
             print(error)
