@@ -126,8 +126,8 @@ class Video:
     def valid(self):
         if (
             (self.likes / (self.hr_ago * 1000) > 0.5)
-            and (self.hr_ago < 2)
-            and (self.comments > 90)
-            and (self.comments < 200)
+            and (self.hr_ago < 24)
+            # and (self.comments > 90)
+            and (self.comments < 2000)
         ):
             return True
