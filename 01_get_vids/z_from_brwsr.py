@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 
-# python3 M1 4 3
-# python3 M1 (# brwsrs) (# new vids)
+# python3 (# brwsrs) (# new vids)
 
 import asyncio
 from playwright.async_api import async_playwright
@@ -10,9 +9,7 @@ import uiautomator2 as u2
 from ppadb.client import Client as AdbClient
 import mod
 from datetime import datetime
-import random
 import json
-import re
 from colorama import Fore, Style
 
 search_browsers = int(sys.argv[1])
@@ -109,11 +106,11 @@ async def get_vids():
             *[browser_l(segment) for index, segment in enumerate(users)]
         )
 
-        with open("./etc/new_videos.txt", "w") as outfile:
+        with open("./etc/videos_new.txt", "w") as outfile:
             for index, row in enumerate(new_vids):
                 outfile.write(str(row) + "\n")
 
-        with open("./etc/used_videos.txt", "w") as outfile:
+        with open("./etc/videos_used.txt", "w") as outfile:
             for index, row in enumerate(used_vids):
                 outfile.write(str(row) + "\n")
 

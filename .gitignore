@@ -1,9 +1,14 @@
 .DS_Store
 __pycache__
+
 /etc/.DS_Store
 /etc/all_tktk.txt
 /etc/TikTok_34.5.4_Apkpure.apk
 /etc/Dual_Space_v4.2.7_118_Premium_Mod.apk
-/get_vids/etc
-/get_vids/__pycache__
-/get_vids/firefox
+
+/01_get_vids/.DS_Store
+/01_get_vids/etc
+/01_get_vids/__pycache__
+/01_get_vids/firefox
+
+/02_comment/etc
