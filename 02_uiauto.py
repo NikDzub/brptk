@@ -18,6 +18,7 @@ def start_ui(client):
     # atx
     d = u2.connect(client.serial)  # print(d.info)
     d.uiautomator.start()
+    print(d.info)
     d.app_start("com.github.uiautomator")
     d(resourceId="com.github.uiautomator:id/start_uiautomator").click()
 

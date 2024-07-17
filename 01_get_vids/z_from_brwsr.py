@@ -7,7 +7,7 @@ from playwright.async_api import async_playwright
 import sys
 import uiautomator2 as u2
 from ppadb.client import Client as AdbClient
-import mod
+import get_vids_mod
 from datetime import datetime
 import json
 from colorama import Fore, Style
@@ -16,8 +16,8 @@ search_browsers = int(sys.argv[1])
 n_new = int(sys.argv[2])
 
 
-users = mod.get_users(segments=search_browsers)
-used_vids = mod.get_used_vids()
+users = get_vids_mod.get_users(segments=search_browsers)
+used_vids = get_vids_mod.get_used_vids()
 new_vids = []
 
 
@@ -33,7 +33,7 @@ async def get_vids():
         #     #     "password": "qF5DWZ",
         #     # },
         # )
-        mod.clean_firefox()
+        get_vids_mod.clean_firefox()
         context = await p.firefox.launch_persistent_context(
             user_data_dir="./firefox", headless=False
         )
@@ -71,7 +71,7 @@ async def get_vids():
                             videos_json = json.loads(response_body)["itemList"]
                             current_timestamp = datetime.now().timestamp()
                             for vid in videos_json:
-                                vid = mod.Video(
+                                vid = get_vids_mod.Video(
                                     vid["author"]["uniqueId"],
                                     vid["author"]["verified"],
                                     vid["id"],

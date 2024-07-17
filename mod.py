@@ -21,7 +21,7 @@ def split_list(li, segments):
     return segments_list
 
 
-def get_users():
+def get_userss():
     with open("./etc/user_list.txt") as f:
         username_list = []
 

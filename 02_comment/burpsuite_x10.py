@@ -75,7 +75,7 @@ class BurpExtender(IBurpExtender, IHttpListener):
             )
             print(url)
 
-            with open("./etc/urls.txt", "a") as file:
+            with open("./etc/comment_url.txt", "a") as file:
                 file.write("{}\n".format(url))
 
             author_id = ""
