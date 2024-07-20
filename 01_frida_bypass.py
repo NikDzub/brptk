@@ -7,6 +7,7 @@ from ppadb.client import Client as AdbClient
 import sys
 import subprocess
 
+# serial = input("Enter comment device serial port 127.0.0.1: ")
 
 serial = sys.argv[1]  # 127.0.0.1:6555
 
