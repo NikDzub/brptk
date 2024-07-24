@@ -23,14 +23,14 @@ def split_list(li, segments):
 
 
 def get_users(segments):
-    with open("./etc/users.txt") as f:
+    with open("./01_get_vids/etc/users.txt") as f:
         username_list = []
         for line in f.readlines():
             username_list.append(line.replace("\n", ""))
         random.shuffle(username_list)
 
         top_users = []
-        with open("./etc/users_top.txt") as f:
+        with open("./01_get_vids/etc/users_top.txt") as f:
             for line in f.readlines():
                 top_users.append(line.replace("\n", ""))
         random.shuffle(top_users)
@@ -42,7 +42,7 @@ def get_users(segments):
 
 
 def get_used_vids():
-    with open("./etc/videos_used.txt", "r") as file:
+    with open("./01_get_vids/etc/videos_used.txt", "r") as file:
         used_vids = []
         lines = file.readlines()
         for line in lines:

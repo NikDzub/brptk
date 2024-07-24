@@ -9,7 +9,7 @@ import subprocess
 
 
 serial = sys.argv[1]  # 127.0.0.1:6562
-urls_path = "./etc/urls.txt"
+urls_path = "02_comment/etc/comment_url.txt"
 
 
 d = u2.connect(serial)  # print(d.info)
@@ -43,21 +43,24 @@ def delete_urls(path, urls_to_delete):
 
 
 async def open_urls(user_id, urls):
-    print(f"user_id: {user_id}")
-    d.shell(f"am switch-user {user_id}")
-    await asyncio.sleep(2)
-    d(resourceId="com.android.systemui:id/clock").exists(timeout=20)
+    try:
+        print(f"user_id: {user_id}")
+        d.shell(f"am switch-user {user_id}")
+        await asyncio.sleep(2)
+        d(resourceId="com.android.systemui:id/clock").exists(timeout=20)
 
-    d.open_url("https://www.tiktok.com/@ihptto")
-    d(text="Message").exists(timeout=20)
+        d.open_url("https://www.tiktok.com/@ihptto")
+        d(text="Message").exists(timeout=20)
 
-    for url in urls:
-        d.open_url(url)
-        d(descriptionContains="Like or undo like").exists(timeout=20)
-        d(descriptionContains="Like or undo like").click()
+        for url in urls:
+            d.open_url(url)
+            d(descriptionContains="Like or undo like").exists(timeout=20)
+            d(descriptionContains="Like or undo like").click()
 
-    d.shell("pm clear com.zhiliaoapp.musically")
-    d.shell("am force-stop com.zhiliaoapp.musically")
+        # d.shell("pm clear com.zhiliaoapp.musically")
+        # d.shell("am force-stop com.zhiliaoapp.musically")
+    except:
+        print("error")
 
 
 async def reboot(serial):

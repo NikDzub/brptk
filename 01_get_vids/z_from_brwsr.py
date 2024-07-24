@@ -35,7 +35,7 @@ async def get_vids():
         # )
         get_vids_mod.clean_firefox()
         context = await p.firefox.launch_persistent_context(
-            user_data_dir="./firefox", headless=False
+            user_data_dir="./firefox", headless=True
         )
 
         async def browser_l(segment):

@@ -5,7 +5,7 @@ import shutil
 
 
 def get_new_vids():
-    with open("../01_get_vids/etc/videos_new.txt", "r") as file:
+    with open("./01_get_vids/etc/videos_new.txt", "r") as file:
         new_vids = []
         lines = file.readlines()
         for line in lines:
