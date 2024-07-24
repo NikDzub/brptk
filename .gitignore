@@ -1,6 +1,8 @@
 .DS_Store
 __pycache__
 
+/firefox
+
 /etc/.DS_Store
 /etc/all_tktk.txt
 /etc/TikTok_34.5.4_Apkpure.apk
