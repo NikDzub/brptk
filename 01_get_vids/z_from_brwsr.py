@@ -106,11 +106,11 @@ async def get_vids():
             *[browser_l(segment) for index, segment in enumerate(users)]
         )
 
-        with open("./etc/videos_new.txt", "w") as outfile:
+        with open("./01_get_vids/etc/videos_new.txt", "w") as outfile:
             for index, row in enumerate(new_vids):
                 outfile.write(str(row) + "\n")
 
-        with open("./etc/videos_used.txt", "w") as outfile:
+        with open("./01_get_vids/etc/videos_used.txt", "w") as outfile:
             for index, row in enumerate(used_vids):
                 outfile.write(str(row) + "\n")
 

@@ -58,9 +58,10 @@ async def open_urls(user_id, urls):
             d(descriptionContains="Like or undo like").click()
 
         # d.shell("pm clear com.zhiliaoapp.musically")
-        # d.shell("am force-stop com.zhiliaoapp.musically")
-    except:
-        print("error")
+        d.shell("am force-stop com.zhiliaoapp.musically")
+    except Exception as error:
+        print(error)
+        pass
 
 
 async def reboot(serial):
