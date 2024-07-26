@@ -47,13 +47,15 @@ async def open_urls(user_id, urls):
         print(f"user_id: {user_id}")
         d.shell(f"am switch-user {user_id}")
         await asyncio.sleep(2)
-        d(resourceId="com.android.systemui:id/clock").exists(timeout=20)
+        # d(resourceId="com.android.systemui:id/clock").exists(timeout=20)
 
         d.open_url("https://www.tiktok.com/@ihptto")
-        d(text="Message").exists(timeout=20)
+        print("1")
+        d(text="Message").exists(timeout=2)
 
         for url in urls:
             d.open_url(url)
+            print(url)
             d(descriptionContains="Like or undo like").exists(timeout=20)
             d(descriptionContains="Like or undo like").click()
 
@@ -70,18 +72,18 @@ async def reboot(serial):
 
 
 async def main():
-    while True:
-        try:
-            urls = get_urls(urls_path)
-            if len(urls) > 2:
-                for user_id in d_users:
-                    await open_urls(user_id, urls)
-                delete_urls(urls_path, urls)
-                await reboot(serial)
 
-        except Exception as error:
-            print(error)
-            pass
+    try:
+        urls = get_urls(urls_path)
+        if len(urls) > 2:
+            for user_id in d_users:
+                await open_urls(user_id, urls)
+            delete_urls(urls_path, urls)
+            # await reboot(serial)
+
+    except Exception as error:
+        print(error)
+        pass
 
 
 if __name__ == "__main__":
