@@ -47,7 +47,7 @@ def loop(serial):
             random.shuffle(comments_list)
             for comment_index, comment in enumerate(comments_list):
 
-                if comment_index < 2:
+                if comment_index < 1:
                     # print(f"comment : {comment}")
                     d(textContains="Add comment...").click(10)
                     d(textContains="Add comment...").set_text(comment)

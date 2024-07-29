@@ -75,8 +75,17 @@ class BurpExtender(IBurpExtender, IHttpListener):
             )
             print(url)
 
-            with open("./etc/comment_url.txt", "a") as file:
-                file.write("{}\n".format(url))
+            url_exists = False
+            with open("./etc/comment_url.txt", "r") as file:
+                for line in file:
+                    if line.strip() == url:
+                        url_exists = True
+                        print("url exists")
+                        break
+
+            if not url_exists:
+                with open("./etc/comment_url.txt", "a") as file:
+                    file.write("{}\n".format(url))
 
             author_id = ""
             aweme_id = ""

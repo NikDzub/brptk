@@ -47,60 +47,62 @@ async def get_vids():
             # await page.wait_for_timeout(546546456)
 
             for user in segment:
-                if len(new_vids) < n_new:
-                    try:
-                        sys.stdout.flush()
-                        async with page.expect_request(
-                            "**/api/post/item_list/**",
+
+                try:
+                    sys.stdout.flush()
+                    async with page.expect_request(
+                        "**/api/post/item_list/**",
+                        timeout=10000,
+                    ) as first:
+                        await page.goto(
+                            f"https://www.tiktok.com/@{user}",
                             timeout=10000,
-                        ) as first:
-                            await page.wait_for_timeout(2000)
-                            await page.goto(
-                                f"https://www.tiktok.com/@{user}",
-                                timeout=10000,
-                                wait_until="domcontentloaded",
+                            wait_until="domcontentloaded",
+                        )
+
+                    if len(new_vids) > n_new:
+                        break
+
+                    # await page.wait_for_timeout(134000)
+                    first_request = await first.value
+                    response = await first_request.response()
+                    response_body = await response.body()
+
+                    await page.wait_for_timeout(1000)
+
+                    if json.loads(response_body)["itemList"]:
+                        print(f")", end="")
+                        videos_json = json.loads(response_body)["itemList"]
+                        current_timestamp = datetime.now().timestamp()
+                        for vid in videos_json:
+                            vid = get_vids_mod.Video(
+                                vid["author"]["uniqueId"],
+                                vid["author"]["verified"],
+                                vid["id"],
+                                ((current_timestamp - vid["createTime"]) / 3600),
+                                vid["stats"]["commentCount"],
+                                vid["stats"]["diggCount"],
+                                vid["stats"]["playCount"],
+                                vid["stats"]["collectCount"],
+                                vid["stats"]["shareCount"],
                             )
+                            used = vid.video_url() in used_vids
 
-                        # await page.wait_for_timeout(134000)
-                        first_request = await first.value
-                        response = await first_request.response()
-                        response_body = await response.body()
+                            if (
+                                vid.valid()
+                                and used == False
+                                # and len(new_vids) < n_new
+                            ):
+                                new_vids.append(vid.video_url())
+                                used_vids.append(vid.video_url())
+                                vid.display_info()
+                                print(len(new_vids))
 
-                        if json.loads(response_body)["itemList"]:
-                            print(f"|", end="")
-                            videos_json = json.loads(response_body)["itemList"]
-                            current_timestamp = datetime.now().timestamp()
-                            for vid in videos_json:
-                                vid = get_vids_mod.Video(
-                                    vid["author"]["uniqueId"],
-                                    vid["author"]["verified"],
-                                    vid["id"],
-                                    ((current_timestamp - vid["createTime"]) / 3600),
-                                    vid["stats"]["commentCount"],
-                                    vid["stats"]["diggCount"],
-                                    vid["stats"]["playCount"],
-                                    vid["stats"]["collectCount"],
-                                    vid["stats"]["shareCount"],
-                                )
-                                used = vid.video_url() in used_vids
-
-                                if (
-                                    vid.valid()
-                                    and used == False
-                                    # and len(new_vids) < n_new
-                                ):
-                                    new_vids.append(vid.video_url())
-                                    used_vids.append(vid.video_url())
-                                    vid.display_info()
-
-                    except Exception as error:
-                        # print(error)
-                        print(f"{Fore.RED}|{Style.RESET_ALL}", end="")
-                        sys.stdout.flush()
-                        pass
-
-                else:
-                    break
+                except Exception as error:
+                    # print(error)
+                    print(f"{Fore.RED}({Style.RESET_ALL}", end="")
+                    sys.stdout.flush()
+                    pass
 
         await asyncio.gather(
             *[browser_l(segment) for index, segment in enumerate(users)]
@@ -119,9 +121,9 @@ async def get_vids():
 
 
 async def main():
-    print(
-        f"{Fore.BLUE}\n{sys.argv[0]} started {Fore.LIGHTBLACK_EX}{datetime.now().strftime(f'%H:%M:%S')}{Style.RESET_ALL}"
-    )
+    # print(
+    #     f"{Fore.BLUE}\n{sys.argv[0]} started {Fore.LIGHTBLACK_EX}{datetime.now().strftime(f'%H:%M:%S')}{Style.RESET_ALL}"
+    # )
     await asyncio.gather(*[get_vids()])
 
 
