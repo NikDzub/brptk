@@ -22,12 +22,24 @@ def get_urls(path):
     with open(path, "r") as urls_file:
         for line in urls_file:
             urls.append(f"{line}".replace("\n", ""))
-
-    # clear
-    with open(path, "w") as urls_file:
-        urls_file.write("")
-
     return urls
+
+
+def delete_urls(path, urls_to_delete):
+    maybe_new_urls = get_urls(urls_path)
+
+    print("maybe new urls:")
+    print(maybe_new_urls)
+
+    for url_to_delete in urls_to_delete:
+        print(f"url to delete: {url_to_delete}")
+        if url_to_delete in maybe_new_urls:
+            maybe_new_urls.remove(url_to_delete)
+            print(f"delete: {url_to_delete}")
+
+    with open(path, "w") as urls_file:
+        for url in maybe_new_urls:
+            urls_file.write(url + "\n")
 
 
 async def open_urls(user_id, urls):
@@ -35,8 +47,7 @@ async def open_urls(user_id, urls):
         print(f"user_id: {user_id}")
         d.shell(f"am switch-user {user_id}")
         await asyncio.sleep(6)
-        d.shell(f"input keyevent KEYCODE_WAKEUP")
-        d.shell(f"input keyevent KEYCODE_MENU")
+        d.shell(f"input swipe 300 1000 300 500")
         # d(resourceId="com.android.systemui:id/clock").exists(timeout=20)
 
         d.open_url("https://www.tiktok.com/@ihptto")
@@ -45,13 +56,8 @@ async def open_urls(user_id, urls):
         for url in urls:
             d.open_url(url)
             print(url)
-            comment_found = d(textContains="Need Boyfriend").exists(timeout=20)
-
-            if comment_found:
-                d(descriptionContains="Like or undo like").exists(timeout=20)
-                d(descriptionContains="Like or undo like").click()
-            else:
-                urls.remove(url)
+            d(descriptionContains="Like or undo like").exists(timeout=20)
+            d(descriptionContains="Like or undo like").click()
 
         # d.shell("pm clear com.zhiliaoapp.musically")
         d.shell("am force-stop com.zhiliaoapp.musically")
@@ -69,12 +75,13 @@ async def main():
 
     try:
         urls = get_urls(urls_path)
-
-        for user_id in d_users:
-            await open_urls(user_id, urls)
-        d.shell(f"am switch-user 0")
-        await asyncio.sleep(3)
-        # await reboot(serial)
+        if len(urls) > 2:
+            for user_id in d_users:
+                await open_urls(user_id, urls)
+            delete_urls(urls_path, urls)
+            d.shell(f"am switch-user 0")
+            await asyncio.sleep(2)
+            # await reboot(serial)
 
     except Exception as error:
         print(error)

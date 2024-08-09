@@ -20,7 +20,8 @@ async def paste():
         text = pyperclip.paste()
         print(text)
 
-        d(focused=True).set_text(text)
+        d.shell(f'input text "{text}"')
+        # d(focused=True).set_text(text)
 
     except Exception as error:
         print(error)
