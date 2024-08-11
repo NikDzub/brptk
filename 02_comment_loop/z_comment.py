@@ -9,9 +9,11 @@ import asyncio
 import re
 import random
 
-
-serial = sys.argv[1]  # 127.0.0.1:6555
 new_vids_arr = comment_mod.get_new_vids()
+
+client = AdbClient(host="127.0.0.1", port=5037)
+devices = client.devices()
+
 comment_mod.clear_new_vids()
 
 
@@ -62,11 +64,13 @@ def loop(serial):
 
 
 def main():
-    try:
-        loop(serial)
-    except Exception as error:
-        print(error)
-        pass
+    for device in devices:
+        if "127.0.0.1" in device.serial:
+            try:
+                loop(device.serial)
+            except Exception as error:
+                print(error)
+                pass
 
 
 if __name__ == "__main__":

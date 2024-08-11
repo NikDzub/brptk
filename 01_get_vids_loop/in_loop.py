@@ -53,8 +53,9 @@ async def get_vids():
                             await page.goto(
                                 f"https://www.tiktok.com/@{user}",
                                 timeout=10000,
-                                wait_until="domcontentloaded",
+                                wait_until="load",
                             )
+                            await page.wait_for_selector("video", timeout=10000)
                         first_request = await first.value
                         response = await first_request.response()
                         response_body = await response.body()

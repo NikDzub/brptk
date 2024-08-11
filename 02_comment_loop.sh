@@ -17,16 +17,16 @@ while true; do
         echo "$LINE_COUNT/$MIN_LINES"
 
         # COMMENT ON ALL
-        python3 $CURRENT_DIR/02_comment_loop/z_comment.py 127.0.0.1:6555 
+        python3 $CURRENT_DIR/02_comment_loop/z_comment.py
         if [ $? -ne 0 ]; then
-            echo "First script failed, skipping second script."
+            echo "02_comment_loop/z_comment.py failed."
             continue
         fi
         
         # LIKE ALL    
         python3 $CURRENT_DIR/03_likes/z_likes.py RF8MB29J8AE
         if [ $? -ne 0 ]; then
-            echo "Second script failed."
+            echo "03_likes/z_likes.py failed."
             continue
         fi        
     else
