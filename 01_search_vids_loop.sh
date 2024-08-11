@@ -12,6 +12,7 @@ while true; do
     if [ $? -ne 0 ]; then
         echo "failed, restarting..."
         continue
+    echo "ended script."
     fi
 
 done

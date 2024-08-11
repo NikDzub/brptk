@@ -32,7 +32,7 @@ async def get_vids():
         # )
         get_vids_mod.clean_firefox()
         context = await p.firefox.launch_persistent_context(
-            user_data_dir="./firefox", headless=False
+            user_data_dir="./firefox", headless=True
         )
 
         async def browser_l(segment):
@@ -49,7 +49,7 @@ async def get_vids():
                             "**/api/post/item_list/**",
                             timeout=10000,
                         ) as first:
-                            print(user)
+                            # print(user)
                             await page.goto(
                                 f"https://www.tiktok.com/@{user}",
                                 timeout=10000,
@@ -96,7 +96,7 @@ async def get_vids():
                                             outfile.write(str(row) + "\n")
 
                     except Exception as error:
-                        print(error)
+                        # print(error)
                         print(f"{Fore.RED}({Style.RESET_ALL}", end="")
                         sys.stdout.flush()
                         pass
@@ -113,6 +113,14 @@ async def main():
     # print(
     #     f"{Fore.BLUE}\n{sys.argv[0]} started {Fore.LIGHTBLACK_EX}{datetime.now().strftime(f'%H:%M:%S')}{Style.RESET_ALL}"
     # )
+
+    try:
+        # Set a timeout of 60 seconds for the main function
+        await asyncio.wait_for(get_vids(), timeout=560.0)
+    except asyncio.TimeoutError:
+        print("Script timed out")
+        sys.exit(1)
+
     await asyncio.gather(*[get_vids()])
 
 

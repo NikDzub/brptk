@@ -12,10 +12,9 @@ get_line_count() {
 
 while true; do
     LINE_COUNT=$(get_line_count)
-    echo "new_vids: $LINE_COUNT"
-    
+
     if [ "$LINE_COUNT" -gt "$MIN_LINES" ]; then
-        echo "$LINE_COUNT videos found"
+        echo "$LINE_COUNT/$MIN_LINES"
 
         # COMMENT ON ALL
         python3 $CURRENT_DIR/02_comment_loop/z_comment.py 127.0.0.1:6555 
@@ -31,9 +30,10 @@ while true; do
             continue
         fi        
     else
-        echo "Not enough videos. Current videos count: $LINE_COUNT"
+        echo "$LINE_COUNT/$MIN_LINES"
+
     fi
     
     # Wait for a specified interval before checking again
-    sleep 10
+    sleep 20
 done
