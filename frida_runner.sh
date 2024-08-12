@@ -5,7 +5,7 @@ SERIAL=$1
 
 
 run_script() {
-    python3 "$CURRENT_DIR/01_frida_bypass.py" "$SERIAL" 
+    python3 "$CURRENT_DIR/frida_bypass.py" "$SERIAL" 
 }
 
 while true; do

@@ -23,9 +23,9 @@ def loop(serial):
     d.open_url(f"https://www.tiktok.com/@ihptto")
     d(text="Message").exists(timeout=10)
 
-    for vid_url in new_vids_arr:
+    for index, vid_url in enumerate(new_vids_arr):
         try:
-            print(vid_url)
+            print(f"{index}{len(new_vids_arr)}{vid_url}")
             d.open_url(vid_url)
 
             d(descriptionContains="profile").exists(timeout=10)

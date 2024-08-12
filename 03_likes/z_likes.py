@@ -32,7 +32,7 @@ def get_urls(path):
 
 async def open_urls(user_id, urls):
     try:
-        print(f"user_id: {user_id}")
+        print(f"user_id: {user_id}/{len(d_users)}")
         d.shell(f"am switch-user {user_id}")
         await asyncio.sleep(6)
         d.shell(f"input keyevent KEYCODE_WAKEUP")
@@ -42,9 +42,9 @@ async def open_urls(user_id, urls):
         d.open_url("https://www.tiktok.com/@ihptto")
         d(text="Message").exists(timeout=20)
 
-        for url in urls:
+        for index, url in enumerate(urls):
             d.open_url(url)
-            print(url)
+            print(f"{user_id}/{len(d_users)} {index}/{len(urls)}{url}")
             comment_found = d(textContains="Need Boyfriend").exists(timeout=20)
 
             if comment_found:

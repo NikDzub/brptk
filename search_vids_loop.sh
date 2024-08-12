@@ -1,13 +1,8 @@
 #!/bin/bash
 
 CURRENT_TIME=$(date +"%Y-%m-%d %H:%M:%S")
-BRWSRS=$1
-
-
-# echo "Start: $CURRENT_TIME"
-
 CURRENT_DIR=$(pwd)
-
+BRWSRS=$1
 
 while true; do
     echo "search videos loop started: $CURRENT_TIME"

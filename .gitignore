@@ -3,15 +3,21 @@ __pycache__
 
 /firefox
 
+/etc
 /etc/.DS_Store
 /etc/all_tktk.txt
 /etc/TikTok_34.5.4_Apkpure.apk
 /etc/TikTok v35.8.5 (Mod) arm8.apk
 /etc/Dual_Space_v4.2.7_118_Premium_Mod.apk
 
-/01_get_vids/.DS_Store
-/01_get_vids/etc
-/01_get_vids/__pycache__
-/01_get_vids/firefox
+/01_get_vids_loop/.DS_Store
+/01_get_vids_loop/__pycache__
+/01_get_vids_loop/etc
 
-/02_comment/etc
+/02_comment_loop/.DS_Store
+/02_comment_loop/__pycache__
+/02_comment_loop/etc
+
+/03_likes/.DS_Store
+/03_likes/__pycache__
+/03_likes/etc
