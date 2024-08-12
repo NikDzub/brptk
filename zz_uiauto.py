@@ -8,7 +8,7 @@ import sys
 import subprocess
 
 
-print(f"{sys.argv[0]} is running..")
+# print(f"{sys.argv[0]} is running..")
 
 client = AdbClient(host="127.0.0.1", port=5037)
 devices = client.devices()

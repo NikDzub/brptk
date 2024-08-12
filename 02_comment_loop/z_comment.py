@@ -25,7 +25,7 @@ def loop(serial):
 
     for index, vid_url in enumerate(new_vids_arr):
         try:
-            print(f"{index}{len(new_vids_arr)}{vid_url}")
+            print(f"{serial} ({index}/{len(new_vids_arr)}) {vid_url}")
             d.open_url(vid_url)
 
             d(descriptionContains="profile").exists(timeout=10)

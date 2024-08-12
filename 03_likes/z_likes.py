@@ -32,7 +32,7 @@ def get_urls(path):
 
 async def open_urls(user_id, urls):
     try:
-        print(f"user_id: {user_id}/{len(d_users)}")
+        print(f"user_id: {user_id}")
         d.shell(f"am switch-user {user_id}")
         await asyncio.sleep(6)
         d.shell(f"input keyevent KEYCODE_WAKEUP")
@@ -44,7 +44,7 @@ async def open_urls(user_id, urls):
 
         for index, url in enumerate(urls):
             d.open_url(url)
-            print(f"{user_id}/{len(d_users)} {index}/{len(urls)}{url}")
+            print(f"{index}/{len(urls)} {url}")
             comment_found = d(textContains="Need Boyfriend").exists(timeout=20)
 
             if comment_found:
@@ -52,6 +52,7 @@ async def open_urls(user_id, urls):
                 d(descriptionContains="Like or undo like").click()
             else:
                 urls.remove(url)
+                print(f"remove: {url}")
 
         # d.shell("pm clear com.zhiliaoapp.musically")
         d.shell("am force-stop com.zhiliaoapp.musically")
