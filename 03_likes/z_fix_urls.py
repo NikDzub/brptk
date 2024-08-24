@@ -25,9 +25,6 @@ def fix_urls(path):
 
 def main():
     unique_urls = fix_urls(urls_path)
-    print(
-        f"Unique URLs: {len(unique_urls)}"
-    )  # Print number of unique URLs for confirmation
 
 
 if __name__ == "__main__":

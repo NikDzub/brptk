@@ -64,6 +64,8 @@ class BurpExtender(IBurpExtender, IHttpListener):
 
         res_headers, res_body = self.getResponseHeadersAndBody(message)
 
+        # modify block videos
+        res_body = res_body.replace("play_addr", "dont_play_addr")
         new_res = self._helpers.buildHttpMessage(res_headers, res_body)
         message.setResponse(new_res)
 

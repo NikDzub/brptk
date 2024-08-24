@@ -6,6 +6,7 @@ from ppadb.client import Client as AdbClient
 import sys
 import re
 import subprocess
+from datetime import datetime
 
 
 serial = sys.argv[1]  # 127.0.0.1:6562
@@ -34,8 +35,11 @@ async def open_urls(user_id, urls):
     try:
         print(f"user_id: {user_id}")
         d.shell(f"am switch-user {user_id}")
-        await asyncio.sleep(6)
+        await asyncio.sleep(5)
         d.shell(f"input keyevent KEYCODE_WAKEUP")
+        await asyncio.sleep(1)
+        d.shell(f"input keyevent KEYCODE_WAKEUP")
+        await asyncio.sleep(1)
         d.shell(f"input keyevent KEYCODE_MENU")
         # d(resourceId="com.android.systemui:id/clock").exists(timeout=20)
 
@@ -44,7 +48,9 @@ async def open_urls(user_id, urls):
 
         for index, url in enumerate(urls):
             d.open_url(url)
-            print(f"{index}/{len(urls)} {url}")
+            current_timestamp = datetime.now().strftime("%H:%M:%S")
+
+            print(f"{index}/{len(urls)} {url} {current_timestamp}")
             comment_found = d(textContains="Need Boyfriend").exists(timeout=20)
 
             if comment_found:
