@@ -37,7 +37,7 @@ async def open_urls(user_id, urls):
         d.shell(f"am switch-user {user_id}")
         await asyncio.sleep(5)
         d.shell(f"input keyevent KEYCODE_WAKEUP")
-        await asyncio.sleep(1)
+        await asyncio.sleep(2)
         d.shell(f"input keyevent KEYCODE_WAKEUP")
         await asyncio.sleep(1)
         d.shell(f"input keyevent KEYCODE_MENU")
