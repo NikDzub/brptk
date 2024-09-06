@@ -2,7 +2,7 @@
 
 CURRENT_DIR=$(pwd)
 FILE_TO_MONITOR="$CURRENT_DIR/01_get_vids_loop/etc/videos_new.txt"
-MIN_LINES=5
+MIN_LINES=3
 
 
 get_line_count() {

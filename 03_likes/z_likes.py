@@ -7,6 +7,7 @@ import sys
 import re
 import subprocess
 from datetime import datetime
+import random
 
 
 serial = sys.argv[1]  # 127.0.0.1:6562
@@ -51,11 +52,32 @@ async def open_urls(user_id, urls):
             current_timestamp = datetime.now().strftime("%H:%M:%S")
 
             print(f"{index}/{len(urls)} {url} {current_timestamp}")
-            comment_found = d(textContains="Need Boyfriend").exists(timeout=20)
+            comment_found = d(textContains="Amber").exists(timeout=20)
 
             if comment_found:
                 d(descriptionContains="Like or undo like").exists(timeout=20)
                 d(descriptionContains="Like or undo like").click()
+                try:
+                    # reply
+                    d(textContains="Reply").click()
+                    random_replies = [
+                        "I downloaded the app its so fun, thank you",
+                        "Lol go to her bio",
+                        "what are you guys talking about?",
+                        "thanks for the cash app, i just earned 50$",
+                        "This Game app is crazyyy",
+                        "DAMN go see the bio link i just got $220",
+                        "OMG this is actualy legit",
+                        "yep its real guys",
+                        "Thank you",
+                        "Wow Thanks for the link",
+                        "Looking good hey",
+                    ]
+                    d(focused=True).set_text(random.choice(random_replies))
+                    d(descriptionContains="Post comment").click()
+                except:
+                    pass
+
             else:
                 urls.remove(url)
                 print(f"remove: {url}")

@@ -35,7 +35,7 @@ def get_users(segments):
                 top_users.append(line.replace("\n", ""))
         random.shuffle(top_users)
 
-        top_users = top_users[:5]
+        top_users = top_users[:50]
         for top in top_users:
             username_list.insert(0, top)
         return split_list(username_list, segments)

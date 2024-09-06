@@ -54,12 +54,12 @@ def loop(serial):
                     # print(f"comment : {comment}")
                     d(textContains="Add comment...").click(10)
                     d(textContains="Add comment...").set_text(f"{comment}")
-                    # d.send_keys("@")
 
                     # tag
                     # try:
+                    #     d.send_keys("@")
                     #     d(descriptionContains="Mention someone in a comment").click()
-                    #     d(textContains="Google This").click(timeout=5000)
+                    #     d(textContains="Amber").click(timeout=5000)
                     # except:
                     #     pass
 

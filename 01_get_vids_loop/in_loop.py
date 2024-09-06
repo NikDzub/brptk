@@ -55,7 +55,7 @@ async def get_vids():
                                 timeout=10000,
                                 wait_until="load",
                             )
-                            await page.wait_for_selector("video", timeout=2000)
+                            await page.wait_for_selector("video", timeout=5000)
                         first_request = await first.value
                         response = await first_request.response()
                         response_body = await response.body()
