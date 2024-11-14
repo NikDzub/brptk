@@ -28,6 +28,7 @@ def get_users(segments):
         for line in f.readlines():
             username_list.append(line.replace("\n", ""))
         random.shuffle(username_list)
+        username_list = username_list[:20]
 
         top_users = []
         with open("./01_get_vids_loop/etc/users_top.txt") as f:
@@ -35,7 +36,7 @@ def get_users(segments):
                 top_users.append(line.replace("\n", ""))
         random.shuffle(top_users)
 
-        top_users = top_users[:50]
+        top_users = top_users[:2]
         for top in top_users:
             username_list.insert(0, top)
         return split_list(username_list, segments)

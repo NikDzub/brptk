@@ -30,6 +30,7 @@ async def get_vids():
         #     #     "password": "qF5DWZ",
         #     # },
         # )
+
         get_vids_mod.clean_firefox()
         context = await p.firefox.launch_persistent_context(
             user_data_dir="./firefox", headless=True
@@ -41,66 +42,66 @@ async def get_vids():
             )
             await page.goto("https://www.tiktok.com/", wait_until="load")
             # await page.wait_for_timeout(546546456)
-            while True:
-                for user in segment:
-                    try:
-                        sys.stdout.flush()
-                        async with page.expect_request(
-                            "**/api/post/item_list/**",
+            for user in segment:
+                try:
+                    sys.stdout.flush()
+                    async with page.expect_request(
+                        "**/api/post/item_list/**",
+                        timeout=10000,
+                    ) as first:
+                        # print(user)
+                        await page.goto(
+                            f"https://www.tiktok.com/@{user}",
                             timeout=10000,
-                        ) as first:
-                            # print(user)
-                            await page.goto(
-                                f"https://www.tiktok.com/@{user}",
-                                timeout=10000,
-                                wait_until="load",
+                            # wait_until="load",
+                        )
+                        # await page.wait_for_selector("video", timeout=5000)
+                    first_request = await first.value
+                    response = await first_request.response()
+                    response_body = await response.body()
+
+                    if json.loads(response_body)["itemList"]:
+                        print(f")", end="")
+                        videos_json = json.loads(response_body)["itemList"]
+                        current_timestamp = datetime.now().timestamp()
+
+                        for vid in videos_json:
+                            vid = get_vids_mod.Video(
+                                vid["author"]["uniqueId"],
+                                vid["author"]["verified"],
+                                vid["id"],
+                                ((current_timestamp - vid["createTime"]) / 3600),
+                                vid["stats"]["commentCount"],
+                                vid["stats"]["diggCount"],
+                                vid["stats"]["playCount"],
+                                vid["stats"]["collectCount"],
+                                vid["stats"]["shareCount"],
                             )
-                            await page.wait_for_selector("video", timeout=5000)
-                        first_request = await first.value
-                        response = await first_request.response()
-                        response_body = await response.body()
 
-                        if json.loads(response_body)["itemList"]:
-                            print(f")", end="")
-                            videos_json = json.loads(response_body)["itemList"]
-                            current_timestamp = datetime.now().timestamp()
+                            used = vid.video_url() in used_vids
+                            if vid.valid() and used == False:
 
-                            for vid in videos_json:
-                                vid = get_vids_mod.Video(
-                                    vid["author"]["uniqueId"],
-                                    vid["author"]["verified"],
-                                    vid["id"],
-                                    ((current_timestamp - vid["createTime"]) / 3600),
-                                    vid["stats"]["commentCount"],
-                                    vid["stats"]["diggCount"],
-                                    vid["stats"]["playCount"],
-                                    vid["stats"]["collectCount"],
-                                    vid["stats"]["shareCount"],
-                                )
+                                url = vid.video_url()
+                                used_vids.append(url)
+                                vid.display_info()
 
-                                used = vid.video_url() in used_vids
-                                if vid.valid() and used == False:
+                                with open(
+                                    "./01_get_vids_loop/etc/videos_new.txt", "a"
+                                ) as file:
+                                    file.write(str(url) + "\n")
 
-                                    url = vid.video_url()
-                                    used_vids.append(url)
-                                    vid.display_info()
+                                with open(
+                                    "./01_get_vids_loop/etc/videos_used.txt", "w"
+                                ) as outfile:
+                                    for index, row in enumerate(used_vids):
+                                        outfile.write(str(row) + "\n")
 
-                                    with open(
-                                        "./01_get_vids_loop/etc/videos_new.txt", "a"
-                                    ) as file:
-                                        file.write(str(url) + "\n")
-
-                                    with open(
-                                        "./01_get_vids_loop/etc/videos_used.txt", "w"
-                                    ) as outfile:
-                                        for index, row in enumerate(used_vids):
-                                            outfile.write(str(row) + "\n")
-
-                    except Exception as error:
-                        # print(error)
-                        print(f"{Fore.RED}({Style.RESET_ALL}", end="")
-                        sys.stdout.flush()
-                        pass
+                except Exception as error:
+                    # print(error)
+                    print(f"{Fore.RED}({Style.RESET_ALL}", end="")
+                    sys.stdout.flush()
+                    pass
+            await page.close()
 
         await asyncio.gather(
             *[browser_l(segment) for index, segment in enumerate(users)]
@@ -117,12 +118,11 @@ async def main():
 
     try:
         # Set a timeout of 60 seconds for the main function
-        await asyncio.wait_for(get_vids(), timeout=560.0)
+        await asyncio.wait_for(get_vids(), timeout=360.0)
     except asyncio.TimeoutError:
-        print("Script timed out")
         sys.exit(1)
 
-    await asyncio.gather(*[get_vids()])
+    # await asyncio.gather(*[get_vids()])
 
 
 asyncio.run(main())
