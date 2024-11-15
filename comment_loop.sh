@@ -37,11 +37,11 @@ while true; do
         fi
         
         # LIKE ALL    
-        python3 $CURRENT_DIR/03_likes/z_likes.py RF8MB29J8AE
-        if [ $? -ne 0 ]; then
-            echo "03_likes/z_likes.py failed."
-            continue
-        fi        
+        # python3 $CURRENT_DIR/03_likes/z_likes.py RF8MB29J8AE
+        # if [ $? -ne 0 ]; then
+        #     echo "03_likes/z_likes.py failed."
+        #     continue
+        # fi        
     else
         printf "%s\r" "$LINE_COUNT/$MIN_LINES $CURRENT_TIME"
 
