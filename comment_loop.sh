@@ -37,7 +37,13 @@ while true; do
         fi
         
         # LIKE ALL    
-        # python3 $CURRENT_DIR/03_likes/z_likes.py RF8MB29J8AE
+        python3 $CURRENT_DIR/03_likes/z_likes.py RF8MB29J8AE
+        if [ $? -ne 0 ]; then
+            echo "03_likes/z_likes.py failed."
+            continue
+        fi 
+
+        # python3 $CURRENT_DIR/03_likes_brw/z_likes.py 1
         # if [ $? -ne 0 ]; then
         #     echo "03_likes/z_likes.py failed."
         #     continue
