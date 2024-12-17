@@ -1,4 +1,8 @@
 ```
+//iPhone - location.replace('x-web-search://?site:cardfruit.com');
+//Android - location.replace('intent://www.cardfruit.com#Intent;end');
+            location.replace('intent://www.cardfruit.com#Intent;scheme=http;action=android.intent.action.VIEW;end')
+
 https://www.blackhillsinfosec.com/genymotion-proxying-android-app-traffic-through-burp-suite/
 https://frida.re/docs/android/
 https://www.youtube.com/watch?v=xp8ufidc514
