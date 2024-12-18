@@ -8,7 +8,8 @@ import sys
 import subprocess
 
 
-# print(f"{sys.argv[0]} is running..")
+serial = sys.argv[1]  # 127.0.0.1:6555
+
 
 client = AdbClient(host="127.0.0.1", port=5037)
 devices = client.devices()
@@ -24,9 +25,9 @@ def start_ui(client):
 
 
 for client in devices:
-    print(client.serial)
-    try:
-        start_ui(client)
-    except Exception as error:
-        print(error)
-        pass
+    if client.serial == serial:
+        try:
+            start_ui(client)
+        except Exception as error:
+            print(error)
+            pass

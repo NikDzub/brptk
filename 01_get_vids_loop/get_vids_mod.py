@@ -70,11 +70,36 @@ def get_used_vids():
 
 def get_new_vids():
     with open("./01_get_vids_loop/etc/videos_new.txt", "r") as file:
+        new_vids = []
+        lines = file.readlines()
+        for line in lines:
+            new_vids.append(line.replace("\n", ""))
+        return new_vids
+
+
+def update_new_vids(url_to_remove):
+    with open("./01_get_vids_loop/etc/videos_new.txt", "r") as file:
+        new_vids = []
+        lines = file.readlines()
+        for line in lines:
+            new_vids.append(line.replace("\n", ""))
+
+    with open("./01_get_vids_loop/etc/videos_new.txt", "w") as file:
+        for url in new_vids:
+            if url_to_remove != url:
+                file.write(url + "\n")
+
+    with open("./01_get_vids_loop/etc/videos_used.txt", "r") as file:
         used_vids = []
         lines = file.readlines()
         for line in lines:
             used_vids.append(line.replace("\n", ""))
-        return used_vids
+
+        used_vids.append(url_to_remove)
+
+        with open("./01_get_vids_loop/etc/videos_used.txt", "w") as file:
+            for used_url in used_vids:
+                file.write(used_url + "\n")
 
 
 def clean_firefox():

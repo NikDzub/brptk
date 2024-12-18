@@ -17,7 +17,6 @@ def get_used_vids():
         lines = file.readlines()
         for line in lines:
             used_vids.append(line.replace("\n", ""))
-            print(line)
         return used_vids
 
 
@@ -73,14 +72,15 @@ class BurpExtender(IBurpExtender, IHttpListener):
                 uid = re.search(r'"uid":"(.*?)"', str(body)).group(1)
 
         except Exception as error:
-            print(error)
+            # print(error)
+            # print("error1")
             pass
 
         try:
             if "whatsapp_share_count" in body:
                 json_data = json.loads(body)
-
                 if json_data["aweme_list"]:
+
                     vids = []
                     current_timestamp = time.time()
 
@@ -103,26 +103,27 @@ class BurpExtender(IBurpExtender, IHttpListener):
                         share_url = vid["share_url"].split("?")[0]
                         create_time = (current_timestamp - vid["create_time"]) / 3600
                         comment_count = vid["statistics"]["comment_count"]
-                        digg_count = vid["statistics"]["digg_count"]
+                        # digg_count = vid["statistics"]["digg_count"]
                         # unique_id = vid["unique_id"]
 
                         used_vids = get_used_vids()
+                        print(used_vids)
+                        print(share_url)
+                        print(share_url not in used_vids)
 
-                        vids.append(
-                            {
-                                "share_url": share_url,
-                                "create_time": create_time,
-                                "comment_count": comment_count,
-                                "digg_count": digg_count,
-                            }
-                        )
+                        if (share_url not in used_vids) and (
+                            create_time < 24.1 and comment_count > 300
+                        ):
+                            vids.append(share_url)
+                            print(share_url)
 
-                    with open("./res.json", "w") as file:
-
-                        file.write(json.dumps(vids))
+                    if len(vids) > 0:
+                        with open("./etc/videos_new.txt", "a") as file:
+                            file.write(str(share_url) + "\n")
 
         except Exception as error:
-            print(error)
+            # print(error)
+            # print("error2")
             pass
 
         return headers, body
@@ -149,15 +150,15 @@ class BurpExtender(IBurpExtender, IHttpListener):
             print(url)
 
             url_exists = False
-            with open("./etc/comment_url.txt", "r") as file:
+            with open("../02_comment_loop/etc/comment_url.txt", "r") as file:
                 for line in file:
                     if line.strip() == url:
                         url_exists = True
-                        print("url exists")
+                        # print("url exists")
                         break
 
             if not url_exists:
-                with open("./etc/comment_url.txt", "a") as file:
+                with open("../02_comment_loop/etc/comment_url.txt", "a") as file:
                     file.write("{}\n".format(url))
 
             author_id = ""
