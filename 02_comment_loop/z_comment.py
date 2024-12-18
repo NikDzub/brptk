@@ -47,6 +47,12 @@ def loop(serial):
 
                 d.swipe_ext("up", scale=0.8)
 
+            comments_list = [
+                "Google This H2X7A.NL",
+                "Guys Dont google H2X7A.NL",
+                "Hey Just Google H2X7A.NL",
+                "Check this out! Google the code H2X7A.NL",
+            ]
             random.shuffle(comments_list)
             for comment_index, comment in enumerate(comments_list):
 

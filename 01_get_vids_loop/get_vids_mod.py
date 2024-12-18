@@ -42,6 +42,23 @@ def get_users(segments):
         return split_list(username_list, segments)
 
 
+def get_all_users():
+    with open("./01_get_vids_loop/etc/users.txt") as f:
+        username_list = []
+        for line in f.readlines():
+            username_list.append(line.replace("\n", ""))
+        random.shuffle(username_list)
+
+        top_users = []
+        with open("./01_get_vids_loop/etc/users_top.txt") as f:
+            for line in f.readlines():
+                top_users.append(line.replace("\n", ""))
+        random.shuffle(top_users)
+        for top in top_users:
+            username_list.insert(0, top)
+        return username_list
+
+
 def get_used_vids():
     with open("./01_get_vids_loop/etc/videos_used.txt", "r") as file:
         used_vids = []
@@ -121,8 +138,13 @@ class Video:
     def valid(self):
         if (
             (self.likes / (self.hr_ago * 1000) > 0.5)
-            and (self.hr_ago < 12)
-            and (self.comments > 400)
+            and (self.hr_ago < 22)
+            and (self.comments > 300)
+            and (self.comments < 999999)
+        ) or (
+            (self.likes / (self.hr_ago * 1000) > 0.5)
+            and (self.hr_ago < 1)
+            and (self.comments > 150)
             and (self.comments < 999999)
         ):
             return True

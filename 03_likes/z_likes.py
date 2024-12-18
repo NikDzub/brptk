@@ -45,7 +45,7 @@ async def open_urls(user_id, urls):
         # d(resourceId="com.android.systemui:id/clock").exists(timeout=20)
 
         d.open_url("https://www.tiktok.com/@ihptto")
-        d(text="Message").exists(timeout=20)
+        d(text="ihptto").exists(timeout=20)
 
         for index, url in enumerate(urls):
             d.open_url(url)
@@ -57,33 +57,21 @@ async def open_urls(user_id, urls):
             if comment_found:
                 d(descriptionContains="Like or undo like").exists(timeout=20)
                 d(descriptionContains="Like or undo like").click()
-                # try:
-                #     # reply
-                #     d(textContains="Reply").click()
-                #     random_replies = [
-                #         "I downloaded the app its so fun, thank you!!!",
-                #         "Lol go to her bio 😮",
-                #         "what are you guys talking about?",
-                #         "thanks for the cash app, i just earned 50$",
-                #         "This Game app is crazyyy🥹",
-                #         "DAMN go see the bio link i just got $220",
-                #         "OMG this is actualy legit",
-                #         "yep its real guys",
-                #         "Thank you",
-                #         "🥹 Wow Thanks for the link",
-                #         "Looking good hey",
-                #         "Thanks for the app download🥹",
-                #         "Did you guys tried the thing in her bio? its kinda crazy",
-                #         "Wow thanks for the app",
-                #         "Damn this bio link saved me 😮",
-                #         "Looking good hey",
-                #         "Damn Thank you",
-                #         "Thanks so much!! ily, guys go check the link in her bio",
-                #     ]
-                #     d(focused=True).set_text(random.choice(random_replies))
-                #     d(descriptionContains="Post comment").click()
-                # except:
-                #     pass
+                # add random
+                try:
+                    # reply
+                    d(textContains="Reply").click()
+                    random_replies = [
+                        "what do you mean?",
+                        "thanks for the app got 100$ lol no bs",
+                        "OMG this is actualy legit",
+                        "yep its real guys..",
+                        "Thank you",
+                    ]
+                    d(focused=True).set_text(random.choice(random_replies))
+                    d(descriptionContains="Post comment").click()
+                except:
+                    pass
 
             else:
                 urls.remove(url)
